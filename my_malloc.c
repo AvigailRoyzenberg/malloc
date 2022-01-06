@@ -48,11 +48,10 @@ void mem_init(unsigned char *my_memory, unsigned int my_mem_size){
 // but allocates it from the memory pool passed to mem_init().
 void * my_malloc(size_t n) {
   // Find a free piece of memory:
-  // declaring a mem_block structure pointer called first to be set to first
-  struct mem_block * cur = first;
+  struct mem_block * cur = first;              // declaring a mem_block structure pointer called first to be set to first
   while (cur->occupied || cur->length < n) {   // while the current mem_block is occupied or the size of the block is smaller than n
-    if (cur == last) break;  // stop if we are at the last mem block
-    cur = next_block(cur);   // set the current mem block to the next mem block available
+    if (cur == last) break;                    // stop if we are at the last mem block
+    cur = next_block(cur);                     // set the current mem block to the next mem block available
   }
   
   // if the current mem block is occupied
