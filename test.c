@@ -14,7 +14,6 @@
 //     memstats();
 //   }
 //   // memconsistency();
-//   // printf("\ndaniel says hi");
 //   // for (size_t i = 0; i < PTRS; i += 2) {
 //   //   my_free(ptrs[i]);
 //   // }
@@ -24,12 +23,10 @@
 //   //   my_free(ptrs[i]);
 //   // }
 //   // memconsistency();
-//   // printf("\nThird loop for daniel");
 //   // for (size_t i = 0; i < PTRS; ++i) {
 //   //   ptrs[i] = my_malloc(1 << (PTRS-i-1));
 //   // }
 //   // memconsistency();
-//   // printf("\nthis works!\n");
 //   // my_malloc(10);
 //   // memstats();
 //   return 0;
