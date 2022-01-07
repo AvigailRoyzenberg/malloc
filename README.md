@@ -1,7 +1,7 @@
-# malloc
-my implementation of malloc() and free()
+# Memory Allocator
+mM implementation of malloc() and free()
 
-My memory allocator uses a linked list structure to keep track of free or occupied memory block.
+My memory allocator uses a linked list structure to keep track of free or occupied memory blocks.
 
 It has a few basic functions:
 - `mem_init()`
