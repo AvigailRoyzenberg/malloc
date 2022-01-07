@@ -14,7 +14,7 @@ There are several rrror / return codes / exceptions handlings but mainly in `tes
 
 The `main()` is in the `test.c` file
 
-To use the makefile to compile and run, download the repo and in the command prompt run:
+To use the `Makefile` to compile and run, download the repo and in the command prompt run:
 `make && test./`
 
 To edit, recompile, and run again, in the command prompt run:
