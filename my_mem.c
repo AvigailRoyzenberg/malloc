@@ -40,8 +40,8 @@ static struct mem_block * new_block(size_t sz) {                   // Defining a
 // and can do whatever initialization is needed.  
 // The memory to be managed is passed into this routine.
 void mem_init(unsigned char *my_memory, unsigned int my_mem_size){
-  if (my_mem_size < min_size) my_mem_size = min_size;    // We need a bit of space for the freelist pointers 
-  last = first = new_block(data_offset + my_mem_size);   // First bit of memory allocated
+  if (my_mem_size < min_size) my_mem_size = min_size;               // We need a bit of space for the freelist pointers 
+  last = first = new_block(data_offset + my_mem_size);              // First bit of memory allocated
 }
 
 // A function functionally equivalent to malloc() , 
@@ -51,8 +51,8 @@ void * my_malloc(size_t n) {
   // declaring a mem_block structure pointer called first to be set to first
   struct mem_block * cur = first;
   while (cur->occupied || cur->length < n) {   // while the current mem_block is occupied or the size of the block is smaller than n
-    if (cur == last) break;  // stop if we are at the last mem block
-    cur = next_block(cur);   // set the current mem block to the next mem block available
+    if (cur == last) break;                    // stop if we are at the last mem block
+    cur = next_block(cur);                     // set the current mem block to the next mem block available
   }
   
   // if the current mem block is occupied
@@ -68,11 +68,11 @@ void * my_malloc(size_t n) {
 
     if (data_offset + n + data_offset + min_size > cur_free->length) { // if we're trying to store more data then amount of free mem we have
       if (cur_free->prev_free)                                         // if there's a mem block before the current free block
-	      cur_free->prev_free->next_free = cur_free->next_free;          // the prevs next one is the current one's next
+	      cur_free->prev_free->next_free = cur_free->next_free;    // the prevs next one is the current one's next
       if (cur_free->next_free)                                         // if there's a next one 
-	      cur_free->next_free->prev_free = cur_free->prev_free;          // set the prev of the next to the current's previous
+	      cur_free->next_free->prev_free = cur_free->prev_free;    // set the prev of the next to the current's previous
       else                                                             // if there is no next one
-	      last_free = cur_free->prev_free;                               // set last free to the previous to get rid of current free
+	      last_free = cur_free->prev_free;                         // set last free to the previous to get rid of current free
     } 
 
     else {                                                                       // if we have enough mem space
@@ -83,14 +83,14 @@ void * my_malloc(size_t n) {
       rest->length = rest_length;                                                // size of mem block
       rest->prev_free = cur_free->prev_free;                                     // set the prev of rest to the current's prev
       if (rest->prev_free)                                                       // if rest has a prev
-	      rest->prev_free->next_free = rest;                                       // set the prev's next to the rest
+	      rest->prev_free->next_free = rest;                                 // set the prev's next to the rest
       rest->next_free = cur_free->next_free;                                     // set rest's next to the current free's next
       if (rest->next_free)                                                       // if rest has a next
-	      rest->next_free->prev_free = rest;                                       // set rest's next's prev to rest
+	      rest->next_free->prev_free = rest;                                 // set rest's next's prev to rest
       else                                                                       // if rest doesn't have a next
-	      last_free = rest;                                                        // set the last free mem block to rest
+	      last_free = rest;                                                  // set the last free mem block to rest
       if (last == cur)                                                           // if the cur mem block is the last
-	      last = (struct mem_block *) rest;                                        // set last to point to mem rest
+	      last = (struct mem_block *) rest;                                  // set last to point to mem rest
     }
   }
   return cur->data;
