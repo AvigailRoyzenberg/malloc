@@ -73,5 +73,3 @@ int main(int argc, char **argv){
   printf("after free #4");
   memstats();
 }
-
-// my version:
