@@ -10,6 +10,10 @@ It has a few basic functions:
     -  `merge_check()`and `merge_blocks()` 
 -  `mem_stats()`
 
+There are several rrror / return codes / exceptions handlings but mainly in `test_mem_consistency()`
+
+The `main()` is in the `test.c` file
+
 To use the makefile to compile and run, download the repo and in the command prompt run:
 `make && test./`
 
