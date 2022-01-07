@@ -48,10 +48,11 @@ void mem_init(unsigned char *my_memory, unsigned int my_mem_size){
 // but allocates it from the memory pool passed to mem_init().
 void * my_malloc(size_t n) {
   // Find a free piece of memory:
-  struct mem_block * cur = first;              // declaring a mem_block structure pointer called first to be set to first
+  // declaring a mem_block structure pointer called first to be set to first
+  struct mem_block * cur = first;
   while (cur->occupied || cur->length < n) {   // while the current mem_block is occupied or the size of the block is smaller than n
-    if (cur == last) break;                    // stop if we are at the last mem block
-    cur = next_block(cur);                     // set the current mem block to the next mem block available
+    if (cur == last) break;  // stop if we are at the last mem block
+    cur = next_block(cur);   // set the current mem block to the next mem block available
   }
   
   // if the current mem block is occupied
@@ -67,11 +68,11 @@ void * my_malloc(size_t n) {
 
     if (data_offset + n + data_offset + min_size > cur_free->length) { // if we're trying to store more data then amount of free mem we have
       if (cur_free->prev_free)                                         // if there's a mem block before the current free block
-	      cur_free->prev_free->next_free = cur_free->next_free;    // the prevs next one is the current one's next
+	      cur_free->prev_free->next_free = cur_free->next_free;          // the prevs next one is the current one's next
       if (cur_free->next_free)                                         // if there's a next one 
-	      cur_free->next_free->prev_free = cur_free->prev_free;    // set the prev of the next to the current's previous
+	      cur_free->next_free->prev_free = cur_free->prev_free;          // set the prev of the next to the current's previous
       else                                                             // if there is no next one
-	      last_free = cur_free->prev_free;                         // set last free to the previous to get rid of current free
+	      last_free = cur_free->prev_free;                               // set last free to the previous to get rid of current free
     } 
 
     else {                                                                       // if we have enough mem space
@@ -82,14 +83,14 @@ void * my_malloc(size_t n) {
       rest->length = rest_length;                                                // size of mem block
       rest->prev_free = cur_free->prev_free;                                     // set the prev of rest to the current's prev
       if (rest->prev_free)                                                       // if rest has a prev
-	      rest->prev_free->next_free = rest;                                 // set the prev's next to the rest
+	      rest->prev_free->next_free = rest;                                       // set the prev's next to the rest
       rest->next_free = cur_free->next_free;                                     // set rest's next to the current free's next
       if (rest->next_free)                                                       // if rest has a next
-	      rest->next_free->prev_free = rest;                                 // set rest's next's prev to rest
+	      rest->next_free->prev_free = rest;                                       // set rest's next's prev to rest
       else                                                                       // if rest doesn't have a next
-	      last_free = rest;                                                  // set the last free mem block to rest
+	      last_free = rest;                                                        // set the last free mem block to rest
       if (last == cur)                                                           // if the cur mem block is the last
-	      last = (struct mem_block *) rest;                                  // set last to point to mem rest
+	      last = (struct mem_block *) rest;                                        // set last to point to mem rest
     }
   }
   return cur->data;
@@ -124,38 +125,38 @@ void merge_check(struct free_mem_block * block) {
 
 // A function equivalent to free() but returns the memory to the pool passed to mem_init().
 void my_free(void * ptr) {
-  struct free_mem_block * block = (struct free_mem_block *) (ptr - data_offset);
-  /* don't set block->occupied = 0 yet */
+  struct free_mem_block * block = (struct free_mem_block *) (ptr - data_offset); // declare free_mem_block pointer called block
 
-  // Find next free block from here
-  struct mem_block * cur = (struct mem_block *) block;
-  while (cur != last && cur->occupied) {
-    cur = next_block(cur);
+  // Find the next free block from here:
+  struct mem_block * cur = (struct mem_block *) block; // declare mem_block pointer called cur
+  while (cur != last && cur->occupied) {               // loop while we haven't reach the end and the current is occupied
+    cur = next_block(cur);                             // set the cur to the next block
   }
-  if (cur->occupied) {
-    // We're the last free block 
+  if (cur->occupied) {                                 // if it is occupied, we're at the last free block
     block->occupied = 0;
-    block->next_free = NULL;
+    block->next_free = NULL;                           // set the next block to NULL
     if (last_free) {
-      last_free->next_free = block;
+      last_free->next_free = block;                    // set the last free to this last block
     }
-    block->prev_free = last_free;
-    last_free = block;
-    merge_check(block);
+    block->prev_free = last_free;                      // set the prev free to the last free block
+    last_free = block;                                 // set the last free to this block
+    merge_check(block);                                // merge the 2 blocks together
     return;
   }
-  block->occupied = 0;
-  // cur is free 
+  
+  // now set the block occupied to 0, cur is free 
+  block->occupied = 0;                       
   struct free_mem_block * cur_free = (struct free_mem_block *) cur;
-  // insert into freelist
-  block->next_free = cur_free;
-  block->prev_free = cur_free->prev_free;
-  if (cur_free->prev_free) {
-    cur_free->prev_free->next_free = block;
+  
+  // insert into freelist:
+  block->next_free = cur_free;                  // set the block's next to be the cur_free block
+  block->prev_free = cur_free->prev_free;       // set the block's prev to be the cur_free's prev_free
+  if (cur_free->prev_free) {                    // if the cur_free has a pre_free
+    cur_free->prev_free->next_free = block;     // set the next to that block
   }
-  cur_free->prev_free = block;
+  cur_free->prev_free = block;                  // set the cur's prev to that block 
 
-  merge_check(block);
+  merge_check(block);                           // merge check the block
 }
 
 // Provides statistics about the current allocation of the memory pool
@@ -217,3 +218,4 @@ void memconsistency() {
   }
 #endif // NDEBUG
 }
+
