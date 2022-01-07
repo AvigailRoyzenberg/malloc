@@ -1,5 +1,5 @@
 # Memory Allocator
-mM implementation of malloc() and free()
+My implementation of malloc() and free()
 
 My memory allocator uses a linked list structure to keep track of free or occupied memory blocks.
 
